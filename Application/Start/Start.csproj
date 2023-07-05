@@ -20,4 +20,9 @@
     <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BussinessLogicLayer\BussinessLogicLayer.csproj" />
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
+  </ItemGroup>
+
 </Project>
