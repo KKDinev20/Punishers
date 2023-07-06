@@ -12,18 +12,18 @@ namespace Program
         {
             AibestdbContext context = new AibestdbContext();
 
-            //User user = new();
-            //user.Username = "test";
-            //user.Email = "test";
-            //user.Password = "test";
+            User user = new();
+            user.Username = "test";
+            user.Email = "test";
+            user.Password = "test";
 
-            //context.Users.Add(user);
+            context.Users.Add(user);
 
-            //context.SaveChanges();
+            context.SaveChanges();
 
             User retrieved = context.Users.Where(x => x.Id == 1).First();
 
-            Console.WriteLine(retrieved.Email);
+            Console.WriteLine(retrieved.Password);
         }
     }
 }
