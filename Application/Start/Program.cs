@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
+using DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using Utilities;
@@ -12,18 +13,12 @@ namespace Program
         {
             AibestdbContext context = new AibestdbContext();
 
-            //User user = new();
-            //user.Username = "test";
-            //user.Email = "test";
-            //user.Password = "test";
+            List<User> users = UserRepository.GetAllUsers();
 
-            //context.Users.Add(user);
-
-            //context.SaveChanges();
-
-            User retrieved = context.Users.Where(x => x.Id == 1).First();
-
-            Console.WriteLine(retrieved.Email);
+            foreach(var user in users) 
+            {
+                Console.WriteLine(user.Username);
+            }
         }
     }
 }
