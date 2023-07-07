@@ -16,7 +16,6 @@ namespace Utilities
                 string solutionDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
 
                 filePath = Path.Combine(solutionDir, filePath);
-                Console.WriteLine(filePath);
             }
             else 
             {
