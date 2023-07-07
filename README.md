@@ -29,7 +29,7 @@ Create file called `connection.env` in folder `Punishers/Application` with the f
 ```env
 SERVER=127.0.0.1
 UID=AIBESTUser
-PWD=devPass
+PWD=DevPass
 DATABASE=AIBESTDB
 ```
 
