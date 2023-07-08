@@ -20,9 +20,17 @@ public partial class User
     [StringLength(64)]
     public string Email { get; set; } = null!;
 
-    [StringLength(24)]
+    [StringLength(255)]
     public string Password { get; set; } = null!;
 
     [InverseProperty("User")]
     public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
+
+    public User(int id, string username, string email, string password)
+    {
+        Id = id;
+        Username = username;
+        Email = email;
+        Password = password;
+    }
 }
