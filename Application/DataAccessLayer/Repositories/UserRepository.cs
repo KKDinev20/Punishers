@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,15 @@ namespace DataAccessLayer.Repositories
             User u = context.Users.Where(x => x.Id == user.Id).First();
             u = user;
 
-            context.Update(user);
+            context.Update(u);
+            context.SaveChanges();
+        }
+
+        public static void DeleteUser(User user) 
+        {
+            using AibestdbContext context = new AibestdbContext();
+
+            context.Users.Remove(user);
             context.SaveChanges();
         }
     }
