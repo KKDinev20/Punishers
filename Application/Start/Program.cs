@@ -11,13 +11,11 @@ namespace Program
     {
         public static void Main(string[] args)
         {
-            AibestdbContext context = new AibestdbContext();
+            List<Template> templates = TemplateRepository.GetAllTemplates();
 
-            List<User> users = UserRepository.GetAllUsers();
-
-            foreach(var user in users) 
+            foreach (var template in templates) 
             {
-                Console.WriteLine(user.Username);
+                Console.WriteLine(template.TemplateName);
             }
         }
     }

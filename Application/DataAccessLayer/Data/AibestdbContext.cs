@@ -44,13 +44,8 @@ public partial class AibestdbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         Dictionary<string, string> envValues = new();
-        bool isInStartDir = false;
-        if (Directory.GetCurrentDirectory().EndsWith("Start"))
-        {
-            isInStartDir = true;
-        }
 
-        envValues = EnvReader.Read("connection.env", isInStartDir);
+        envValues = EnvReader.Read("connection.env");
 
         optionsBuilder.UseMySQL(
             $"server={envValues["SERVER"]};" +
