@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Models;
@@ -35,7 +36,7 @@ public partial class Resume
 
     [ForeignKey("UserId")]
     [InverseProperty("Resumes")]
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; } = null;
 
     [InverseProperty("Resume")]
     public virtual ICollection<Workexperience> Workexperiences { get; set; } = new List<Workexperience>();
