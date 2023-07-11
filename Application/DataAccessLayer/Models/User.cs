@@ -20,7 +20,7 @@ public partial class User
     [StringLength(64)]
     public string Email { get; set; } = null!;
 
-    [StringLength(24)]
+    [StringLength(256)]
     public string Password { get; set; } = null!;
 
     [InverseProperty("User")]
