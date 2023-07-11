@@ -24,4 +24,7 @@
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="..\connection.env" />
+  </ItemGroup>
 </Project>
