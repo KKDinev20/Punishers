@@ -33,15 +33,10 @@ namespace DataAccessLayer.Repositories
 
         public static void UpdateResume(Resume resume)
         {
-            using AibestdbContext context = new AibestdbContext();
+            using AibestdbContext context = new();
 
-            Resume r = context
-                .Resumes
-                .Where(x => x.Id == resume.Id)
-                .First();
-            r = resume;
+            context.Update(resume);
 
-            context.Update(r);
             context.SaveChanges();
         }
 
