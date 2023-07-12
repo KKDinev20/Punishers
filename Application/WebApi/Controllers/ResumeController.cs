@@ -19,5 +19,11 @@ namespace WebApi.Controllers
         {
             return ResumeRepository.GetResumeById(id);
         }
+
+        [HttpPut(Name = "{id}")]
+        public void Put(Resume resume) 
+        {
+            ResumeRepository.UpdateResume(resume);
+        }
     }
 }
