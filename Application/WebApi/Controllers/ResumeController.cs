@@ -25,5 +25,11 @@ namespace WebApi.Controllers
         {
             ResumeRepository.UpdateResume(resume);
         }
+
+        [HttpDelete(Name = "{id}")]
+        public void Delete(int id) 
+        {
+            ResumeRepository.DeleteResume(id);
+        }
     }
 }

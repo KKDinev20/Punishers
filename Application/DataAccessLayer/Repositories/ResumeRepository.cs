@@ -40,11 +40,11 @@ namespace DataAccessLayer.Repositories
             context.SaveChanges();
         }
 
-        public static void DeleteWorkeperience(Resume resume)
+        public static void DeleteResume(int resumeId)
         {
             using AibestdbContext context = new AibestdbContext();
 
-            context.Resumes.Remove(resume);
+            context.Resumes.Remove(context.Resumes.Single(x => x.Id == resumeId));
             context.SaveChanges();
         }
     }
