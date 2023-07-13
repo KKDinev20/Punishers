@@ -33,23 +33,18 @@ namespace DataAccessLayer.Repositories
 
         public static void UpdateResume(Resume resume)
         {
-            using AibestdbContext context = new AibestdbContext();
+            using AibestdbContext context = new();
 
-            Resume r = context
-                .Resumes
-                .Where(x => x.Id == resume.Id)
-                .First();
-            r = resume;
+            context.Update(resume);
 
-            context.Update(r);
             context.SaveChanges();
         }
 
-        public static void DeleteWorkeperience(Resume resume)
+        public static void DeleteResume(int resumeId)
         {
             using AibestdbContext context = new AibestdbContext();
 
-            context.Resumes.Remove(resume);
+            context.Resumes.Remove(context.Resumes.Single(x => x.Id == resumeId));
             context.SaveChanges();
         }
     }

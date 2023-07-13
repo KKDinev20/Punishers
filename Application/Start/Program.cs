@@ -12,7 +12,13 @@ namespace Program
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine(Hashing.hashPassowrd("pass1234"));
+            Resume res = new();
+            res.UserId = 40;
+            res.Title = "Test";
+            res.CreationDate = DateTime.Now;
+            res.LastModifiedDate = DateTime.Now;
+
+            ResumeRepository.CreateResume(res);
         }
     }
 }
