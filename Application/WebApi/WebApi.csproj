@@ -19,4 +19,10 @@
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Controllers\Authentication\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\Authentication\" />
+  </ItemGroup>
 </Project>

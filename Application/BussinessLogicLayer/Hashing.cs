@@ -7,12 +7,12 @@ namespace BussinessLogicLayer
     using BC = BCrypt.Net.BCrypt;
     public static class Hashing
     {
-        public static string hashPassowrd(string unhashedPassword)
+        public static string HashPassowrd(string unhashedPassword)
         {
             return BC.HashPassword(unhashedPassword);
         }
 
-        public static bool validatePassword(string unhashedPassword, string passwordHash)
+        public static bool ValidatePassword(string unhashedPassword, string passwordHash)
         {
             return BC.Verify(unhashedPassword, passwordHash);
         }

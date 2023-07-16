@@ -1,0 +1,73 @@
+﻿using DataAccessLayer.Models;
+using DataAccessLayer.Repositories;
+using BussinessLogicLayer;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+
+namespace WebApi.Controllers
+{
+	[Route("api/[controller]")]
+	[ApiController]
+	public class AuthController : ControllerBase
+	{
+		public static User user = new User();
+        private IConfiguration _configuration;
+
+        public AuthController(IConfiguration configuration)
+		{
+			_configuration = configuration;
+		}
+
+		[HttpPost("register")]
+		public async Task<ActionResult<User>> Register(UserDto request)
+		{
+			user.Username = request.Username;
+			user.Email = request.Email;
+			user.Password = Hashing.HashPassowrd(request.Password);
+			DataAccessLayer.Repositories.UserRepository.CreateUser(user);
+			return Ok(user);
+		}
+
+		[HttpPost("login")]
+		public async Task<ActionResult<string>> Login(UserDto request)
+		{
+			if (user.Username != request.Username)
+			{
+				return BadRequest("User not found!");
+			}
+			if (!Hashing.ValidatePassword(request.Password, user.Password))
+			{
+                return BadRequest("Wrong password!");
+            }
+			string token = CreateToken(user);
+			return Ok("token");
+		}
+
+		private string CreateToken(User user)
+		{
+			List<Claim> claims = new List<Claim>
+			{
+				new Claim(ClaimTypes.Name, user.Username)
+			};
+
+			var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+				_configuration.GetSection("AppSettings:Token").Value));
+
+			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+			var token = new JwtSecurityToken(
+				claims: claims,
+				expires: DateTime.Now.AddDays(1),
+				signingCredentials: creds
+				);
+
+			var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+			return jwt;
+		}
+	}
+}
+
