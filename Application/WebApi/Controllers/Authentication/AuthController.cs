@@ -15,7 +15,6 @@ namespace WebApi.Controllers
 	[ApiController]
 	public class AuthController : ControllerBase
 	{
-		public static User user = new User();
         private IConfiguration _configuration;
 
         public AuthController(IConfiguration configuration)
