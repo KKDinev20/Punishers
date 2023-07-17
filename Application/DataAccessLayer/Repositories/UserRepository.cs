@@ -26,6 +26,13 @@ namespace DataAccessLayer.Repositories
             return context.Users.Where(x => x.Id == id).First();
         }
 
+        public static User GetUserByUsername(string username) 
+        {
+            using AibestdbContext context = new AibestdbContext();
+
+            return context.Users.Where(x => x.Username == username).First();
+        }
+
         public static List<User> GetAllUsers() 
         {
             using AibestdbContext context = new AibestdbContext();
