@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace WebApi.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("[controller]")]
 	[ApiController]
 	public class AuthController : ControllerBase
 	{
@@ -24,7 +24,7 @@ namespace WebApi.Controllers
 		}
 
 		[HttpPost]
-		[Route("api/register")]
+		[Route("register")]
 		public async Task<ActionResult<User>> Register(UserDto request)
 		{
 			user.Username = request.Username;
@@ -35,7 +35,7 @@ namespace WebApi.Controllers
 		}
 
 		[HttpPost]
-		[Route("api/login")]
+		[Route("login")]
 		public async Task<ActionResult<string>> Login(UserDto request)
 		{
 			if (user.Username != request.Username)
