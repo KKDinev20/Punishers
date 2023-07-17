@@ -8,27 +8,23 @@ using System.Net.Mail;
 using DataAccessLayer.Repositories;
 using Azure;
 using System.Runtime.Serialization;
+using MySqlX.XDevAPI.Common;
 
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("share")]
+    [Route("resumes")]
     public class ShareController : Controller
     {
-        [HttpGet(Name = "ShareResume")]
-        public void Get(int id, bool download, string? receiver) 
+        [HttpGet]
+        [Route("email")]
+        public void Email(int id, int templateId, string? receiver)
         {
             Resume resume = ResumeRepository.GetResumeById(id);
-            string filename = String.Concat("Presiyan Stefanov".Replace(" ", ""), DateTime.Now);
-            
-            
-            FileContentResult result = GeneratePDFFromRazorView(resume, "someName", filename);
+            Template template = TemplateRepository.GetTemplateById(templateId);
+            string filename = String.Concat(resume.Personalinfos.First().FullName.Replace(" ", ""), DateTime.Now);
 
-            if (download) 
-            {
-                result.ExecuteResult(ControllerContext);
-                return;
-            }
+            GeneratePDFFromRazorView(resume, template.TemplateFilePath, filename);
 
             if (receiver != null)
             {
@@ -37,15 +33,27 @@ namespace WebApi.Controllers
 
                 Directory.Delete(filename);
             }
-            else 
+            else
             {
                 throw new Exception("No reveiver specified for email");
             }
-
         }
 
+        [HttpGet]
+        [Route("download")]
+        public void Download(int id, int templateId)
+        {
+            Resume resume = ResumeRepository.GetResumeById(id);
+            Template template = TemplateRepository.GetTemplateById(templateId);
+            string filename = String.Concat(resume.Personalinfos.First().FullName.Replace(" ", ""), DateTime.Now);
+
+            var result = GeneratePDFFromRazorView(resume, template.TemplateFilePath, filename);
+
+            result.ExecuteResult(ControllerContext);
+            return;
+        }
         [NonAction]
-        public FileContentResult GeneratePDFFromRazorView(Resume resume, string templateName, string filename)
+        private FileContentResult GeneratePDFFromRazorView(Resume resume, string templateName, string filename)
         {
             var Renderer = new ChromePdfRenderer();
             var html = this.RenderViewAsync(templateName, resume);
@@ -62,7 +70,7 @@ namespace WebApi.Controllers
 
     public static class ControllerPDF
     {
-        
+
         public static async Task<string> RenderViewAsync<TModel>(this Controller controller, string viewName, TModel model, bool partial = false)
         {
             if (string.IsNullOrEmpty(viewName))
