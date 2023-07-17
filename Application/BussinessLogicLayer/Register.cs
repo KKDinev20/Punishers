@@ -9,9 +9,7 @@ namespace BussinessLogicLayer
     {
         public static void RegisterUser(int id, string username, string email, string password)
         {
-            //Hashing.ToSHA256(password);
-            //User user = new User(id, username, email, password);
-            //UserRepository.CreateUser(user);
+            
         }
     }
 }
