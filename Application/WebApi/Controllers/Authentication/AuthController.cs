@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace WebApi.Controllers
 {
@@ -21,7 +23,8 @@ namespace WebApi.Controllers
 			_configuration = configuration;
 		}
 
-		[HttpPost("register")]
+		[HttpPost]
+		[Route("api/register")]
 		public async Task<ActionResult<User>> Register(UserDto request)
 		{
 			user.Username = request.Username;
@@ -31,7 +34,8 @@ namespace WebApi.Controllers
 			return Ok(user);
 		}
 
-		[HttpPost("login")]
+		[HttpPost]
+		[Route("api/login")]
 		public async Task<ActionResult<string>> Login(UserDto request)
 		{
 			if (user.Username != request.Username)
@@ -40,13 +44,13 @@ namespace WebApi.Controllers
 			}
 			if (!Hashing.ValidatePassword(request.Password, user.Password))
 			{
-                return BadRequest("Wrong password!");
-            }
+				return BadRequest("Wrong password!");
+			}
 			string token = CreateToken(user);
 			return Ok("token");
 		}
 
-		private string CreateToken(User user)
+        private string CreateToken(User user)
 		{
 			List<Claim> claims = new List<Claim>
 			{
