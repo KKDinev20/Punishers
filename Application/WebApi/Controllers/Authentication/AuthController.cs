@@ -26,6 +26,8 @@ namespace WebApi.Controllers
 		[Route("register")]
 		public async Task<ActionResult<User>> Register(UserDto request)
 		{
+			User user = new();
+
 			user.Username = request.Username;
 			user.Email = request.Email;
 			user.Password = Hashing.HashPassowrd(request.Password);
@@ -35,18 +37,16 @@ namespace WebApi.Controllers
 
 		[HttpPost]
 		[Route("login")]
-		public async Task<ActionResult<string>> Login(UserDto request)
+		public async Task<ActionResult<string>> Login(string username, string password)
 		{
-			if (user.Username != request.Username)
-			{
-				return BadRequest("User not found!");
-			}
-			if (!Hashing.ValidatePassword(request.Password, user.Password))
+			User user = UserRepository.GetUserByUsername(username);
+
+			if (!Hashing.ValidatePassword(password, user.Password))
 			{
 				return BadRequest("Wrong password!");
 			}
 			string token = CreateToken(user);
-			return Ok("token");
+			return Ok(token);
 		}
 
         private string CreateToken(User user)
