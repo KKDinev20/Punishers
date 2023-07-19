@@ -12,7 +12,7 @@ namespace Utilities
         {
             string solutionDir = Directory
                 .GetCurrentDirectory()
-                .Split(@"\Application")[0] + @"\Application\";
+                .Split(@"/Application")[0] + @"/Application/";
             string filePath = solutionDir + fileName;
 
             if (!File.Exists(filePath))
