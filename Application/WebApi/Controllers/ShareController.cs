@@ -16,7 +16,7 @@ namespace WebApi.Controllers
     [Route("resumes")]
     public class ShareController : Controller
     {
-        [HttpGet]
+        [HttpPost]
         [Route("email")]
         public void Email(int id, int templateId, string? receiver)
         {
@@ -39,7 +39,7 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("download")]
         public void Download(int id, int templateId)
         {
