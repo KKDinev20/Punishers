@@ -16,7 +16,7 @@ namespace Utilities
 
             //Commented out for docker image (unsure if it will work)
             //TODO: Test if docker container finds file
-            string filePath = solutionDir + fileName;
+            string filePath = fileName;
 
             if (!File.Exists(filePath))
             {
