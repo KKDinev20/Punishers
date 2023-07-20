@@ -10,4 +10,3 @@ namespace WebApi.Controllers
 		public string Password { get; set; } = string.Empty;
     }
 }
-

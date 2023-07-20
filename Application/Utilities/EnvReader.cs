@@ -12,11 +12,8 @@ namespace Utilities
         {
             string solutionDir = Directory
                 .GetCurrentDirectory()
-                .Split(@"\Application")[0] + @"\Application\";
-
-            //Commented out for docker image (unsure if it will work)
-            //TODO: Test if docker container finds file
-            string filePath = fileName;
+                .Split(@"/Application")[0] + @"/Application/";
+            string filePath = solutionDir + fileName;
 
             if (!File.Exists(filePath))
             {

@@ -49,7 +49,27 @@ namespace WebApi.Controllers
 			return Ok(token);
 		}
 
-        private string CreateToken(User user)
+		[HttpGet]
+		[Route("logout")]
+		public async Task<ActionResult<bool>> Logout()
+		{
+
+            string currentToken = GetTokenFromAuthorizationHeader();
+
+			bool isTokenInvalidated = InvalidateToken(currentToken);
+
+			if (isTokenInvalidated)
+			{
+				return Ok("Logged out successfully.");
+			}
+			else
+			{
+				return BadRequest("Logout failed. Unable to invalidate token.");
+			}
+		}
+
+
+            private string CreateToken(User user)
 		{
 			List<Claim> claims = new List<Claim>
 			{
@@ -71,6 +91,22 @@ namespace WebApi.Controllers
 
 			return jwt;
 		}
-	}
+
+        private string GetTokenFromAuthorizationHeader()
+        {
+            string authorizationHeader = Request.Headers.Authorization.ToString();
+
+            return authorizationHeader.Substring("Bearer ".Length).Trim();
+        }
+
+    private static HashSet<string> tokenBlacklist = new HashSet<string>();
+
+        
+        private bool InvalidateToken(string token)
+        {
+            tokenBlacklist.Add(token);
+			return true;
+        }
+    }
 }
 
