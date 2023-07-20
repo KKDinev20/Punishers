@@ -9,9 +9,11 @@ using DataAccessLayer.Repositories;
 using Azure;
 using System.Runtime.Serialization;
 using MySqlX.XDevAPI.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("resumes")]
     public class ShareController : Controller
@@ -39,6 +41,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         [Route("download")]
         public void Download(int id, int templateId)
@@ -51,17 +54,6 @@ namespace WebApi.Controllers
 
             result.ExecuteResult(ControllerContext);
             return;
-        }
-
-        [HttpPost]
-        [Route("test")]
-        public User Test()
-        {
-            User user = new();
-            user.Username = "Dragan";
-            user.Email = "someMail";
-            user.Password = "DraganPass";
-            return user;
         }
 
         [NonAction]

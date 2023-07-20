@@ -8,6 +8,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using System.Text;
 
 namespace WebApi.Controllers
 {
@@ -22,6 +25,7 @@ namespace WebApi.Controllers
 			_configuration = configuration;
 		}
 
+		[AllowAnonymous]
 		[HttpPost]
 		[Route("register")]
 		public async Task<ActionResult<User>> Register(UserDto request)
@@ -35,6 +39,7 @@ namespace WebApi.Controllers
 			return Ok(user);
 		}
 
+		[AllowAnonymous]
 		[HttpPost]
 		[Route("login")]
 		public async Task<ActionResult<string>> Login(string username, string password)
@@ -49,64 +54,22 @@ namespace WebApi.Controllers
 			return Ok(token);
 		}
 
-		[HttpGet]
-		[Route("logout")]
-		public async Task<ActionResult<bool>> Logout()
+
+
+        private string CreateToken(User user)
 		{
-
-            string currentToken = GetTokenFromAuthorizationHeader();
-
-			bool isTokenInvalidated = InvalidateToken(currentToken);
-
-			if (isTokenInvalidated)
-			{
-				return Ok("Logged out successfully.");
-			}
-			else
-			{
-				return BadRequest("Logout failed. Unable to invalidate token.");
-			}
-		}
-
-
-            private string CreateToken(User user)
-		{
-			List<Claim> claims = new List<Claim>
-			{
-				new Claim(ClaimTypes.Name, user.Username)
-			};
-
-			var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-				_configuration.GetSection("AppSettings:Token").Value));
-
-			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+			var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+			var credentials = new SigningCredentials(securitykey, SecurityAlgorithms.HmacSha256);
 
 			var token = new JwtSecurityToken(
-				claims: claims,
-				expires: DateTime.Now.AddDays(1),
-				signingCredentials: creds
-				);
+				_configuration["Jwt:Issuer"],
+				_configuration["Jwt:Audience"],
+				null,
+				expires: DateTime.Now.AddMinutes(5),
+				signingCredentials: credentials);
 
-			var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-			return jwt;
+			return new JwtSecurityTokenHandler().WriteToken(token);
 		}
-
-        private string GetTokenFromAuthorizationHeader()
-        {
-            string authorizationHeader = Request.Headers.Authorization.ToString();
-
-            return authorizationHeader.Substring("Bearer ".Length).Trim();
-        }
-
-    private static HashSet<string> tokenBlacklist = new HashSet<string>();
-
-        
-        private bool InvalidateToken(string token)
-        {
-            tokenBlacklist.Add(token);
-			return true;
-        }
-    }
+	}
 }
 
