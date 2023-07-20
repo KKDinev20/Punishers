@@ -2,6 +2,7 @@
 using DataAccessLayer.Models;
 using DataAccessLayer.Repositories;
 using BussinessLogicLayer;
+using System.Net.Mail;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using Utilities;
@@ -12,13 +13,8 @@ namespace Program
     {
         public static void Main(string[] args)
         {
-            Resume res = new();
-            res.UserId = 40;
-            res.Title = "Test";
-            res.CreationDate = DateTime.Now;
-            res.LastModifiedDate = DateTime.Now;
-
-            ResumeRepository.CreateResume(res);
+            Attachment attachment = new("/Users/alexandraivanova/Desktop/Punishers/ApplicationemailCredentials.env");
+            MailSender.SendMail("PSStefanov19@codingburgas.bg", attachment);
         }
     }
 }
