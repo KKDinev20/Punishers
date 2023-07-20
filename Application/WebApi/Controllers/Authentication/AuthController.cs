@@ -54,7 +54,13 @@ namespace WebApi.Controllers
 			return Ok(token);
 		}
 
-
+		[Authorize]
+		[HttpGet]
+		[Route("logout")]
+        public async Task<ActionResult<string>> Logout()
+		{
+			return Ok("Logged out successfully");
+		}
 
         private string CreateToken(User user)
 		{
