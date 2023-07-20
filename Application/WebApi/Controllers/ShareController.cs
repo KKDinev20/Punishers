@@ -52,6 +52,18 @@ namespace WebApi.Controllers
             result.ExecuteResult(ControllerContext);
             return;
         }
+
+        [HttpPost]
+        [Route("test")]
+        public User Test()
+        {
+            User user = new();
+            user.Username = "Dragan";
+            user.Email = "someMail";
+            user.Password = "DraganPass";
+            return user;
+        }
+
         [NonAction]
         private FileContentResult GeneratePDFFromRazorView(Resume resume, string templateName, string filename)
         {
