@@ -1,6 +1,8 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using DataAccessLayer.Repositories;
+using BussinessLogicLayer;
+using System.Net.Mail;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using Utilities;
@@ -11,16 +13,8 @@ namespace Program
     {
         public static void Main(string[] args)
         {
-            Login login = new Login();
-            AibestdbContext context = new AibestdbContext();
-
-            List<User> users = UserRepository.GetAllUsers();
-            
-            string username = Console.ReadLine();
-            
-            string password = Console.ReadLine();
-
-            login.LoginMethod(username, password);
+            Attachment attachment = new("/Users/alexandraivanova/Desktop/Punishers/ApplicationemailCredentials.env");
+            MailSender.SendMail("PSStefanov19@codingburgas.bg", attachment);
         }
     }
 }

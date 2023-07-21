@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.SqlClient;
+using DataAccessLayer.Repositories;
 using System.Security.Policy;
 using DataAccessLayer.Models;
 using MySql.Data.MySqlClient;
@@ -8,6 +10,7 @@ namespace BussinessLogicLayer
 {
 	public class Login
 	{
+
 		public void LoginMethod(string loginUsername = "", string loginPassword = "")
 		{
             
@@ -42,5 +45,3 @@ namespace BussinessLogicLayer
             }
         }
 	}
-
-

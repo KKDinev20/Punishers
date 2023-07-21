@@ -1,18 +1,20 @@
 ﻿using System;
-namespace BussinessLogicLayer;
-using BCryptNet = BCrypt.Net.BCrypt;
+using System.Security.Cryptography;
+using System.Text;
 
-public static class Hashing
+namespace BussinessLogicLayer
 {
-    public static string EncryptPassword(string password)
+    using BC = BCrypt.Net.BCrypt;
+    public static class Hashing
     {
-        string salt = BCryptNet.GenerateSalt();
-        string hashedPassword = BCryptNet.HashPassword(password, salt);
-        return hashedPassword;
-    }
+        public static string HashPassowrd(string unhashedPassword)
+        {
+            return BC.HashPassword(unhashedPassword);
+        }
 
-    public static bool VerifyPassword(string password, string hashedPassword)
-    {
-        return BCryptNet.Verify(password, hashedPassword);
+        public static bool ValidatePassword(string unhashedPassword, string passwordHash)
+        {
+            return BC.Verify(unhashedPassword, passwordHash);
+        }
     }
 }
